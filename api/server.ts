@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import { registerRoutes } from "./routes";
 
 const app = express();
 
@@ -15,16 +14,19 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Setup routes
-registerRoutes(app);
-
-// Serve static files
-const distPath = path.join(process.cwd(), 'dist', 'client');
-app.use(express.static(distPath));
-
-// Handle client-side routing
-app.get('*', (req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'));
+// Basic routes
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
 });
+
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  const distPath = path.join(process.cwd(), 'dist', 'client');
+  app.use(express.static(distPath));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
 
 export default app; 
