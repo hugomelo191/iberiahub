@@ -1,5 +1,4 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
 import path from "path";
 
 const app = express();
@@ -54,24 +53,42 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   res.status(status).json({ message });
 });
 
-// Setup routes
-registerRoutes(app);
+// Rota raiz
+app.get('/', (req, res) => {
+  res.send('Bem-vindo à API do Esports Ibéricos!');
+});
+
+// API routes
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', message: 'Esports Ibéricos API is running!' });
+});
 
 // Serve static files in production
 if (process.env.NODE_ENV === "production") {
   const distPath = path.join(process.cwd(), "dist", "client");
   app.use(express.static(distPath));
+}
 
+// Catch-all route para o frontend em produção
+if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res) => {
-    res.sendFile(path.join(distPath, "index.html"));
+    res.sendFile(path.join(process.cwd(), "dist", "client", "index.html"));
+  });
+} else {
+  // Rota 404 para desenvolvimento
+  app.use((req, res) => {
+    res.status(404).json({ 
+      status: 'error',
+      message: `Rota não encontrada: ${req.method} ${req.path}`
+    });
   });
 }
 
 // Start server if running locally
 if (process.env.NODE_ENV === "development") {
-  const port = process.env.PORT || 3000;
+  const port = 3000;
   app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+    console.log(`Servidor rodando em http://localhost:${port}`);
   });
 }
 
