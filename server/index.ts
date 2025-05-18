@@ -5,7 +5,13 @@ const app = express();
 
 // Middleware para CORS
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const allowedOrigins = ['https://iberiahub.vercel.app', 'http://localhost:3000'];
+  const origin = req.headers.origin;
+  
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
@@ -54,13 +60,25 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 // Rota raiz
-app.get('/', (req, res) => {
-  res.send('Bem-vindo à API do Esports Ibéricos!');
+app.get('/', (_req, res) => {
+  res.json({
+    name: 'Esports Ibéricos API',
+    version: '1.0.0',
+    status: 'online',
+    endpoints: {
+      health: '/api/health'
+    }
+  });
 });
 
 // API routes
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Esports Ibéricos API is running!' });
+app.get('/api/health', (_req, res) => {
+  res.json({ 
+    status: 'ok', 
+    message: 'Esports Ibéricos API is running!',
+    environment: process.env.NODE_ENV,
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Serve static files in production
@@ -76,10 +94,10 @@ if (process.env.NODE_ENV === "production") {
   });
 } else {
   // Rota 404 para desenvolvimento
-  app.use((req, res) => {
+  app.use((_req, res) => {
     res.status(404).json({ 
       status: 'error',
-      message: `Rota não encontrada: ${req.method} ${req.path}`
+      message: 'Rota não encontrada'
     });
   });
 }
