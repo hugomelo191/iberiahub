@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
+import path from "path";
 
 const app = express();
 
@@ -39,7 +39,7 @@ app.use((req, res, next) => {
         logLine = logLine.slice(0, 79) + "…";
       }
 
-      log(logLine);
+      console.log(logLine);
     }
   });
 
@@ -57,11 +57,14 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 // Setup routes
 registerRoutes(app);
 
-// Setup static files and development environment
-if (process.env.NODE_ENV === "development") {
-  setupVite(app);
-} else {
-  serveStatic(app);
+// Serve static files in production
+if (process.env.NODE_ENV === "production") {
+  const distPath = path.join(process.cwd(), "dist", "client");
+  app.use(express.static(distPath));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(distPath, "index.html"));
+  });
 }
 
 // Start server if running locally
