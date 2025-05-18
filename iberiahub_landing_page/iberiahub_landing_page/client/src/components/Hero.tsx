@@ -60,7 +60,7 @@ export default function Hero() {
           animate={{ opacity: 0.9 }}
           transition={{ duration: 0.8, delay: 1 }}
         >
-          Começamos com CS2. A comunidade ibérica dos esports, unida e em expansão. Portugal 🇵🇹 e Espanha 🇪🇸 juntos no mesmo servidor.
+          Uma plataforma que une jogadores, equipas, streamers e casters de Portugal 🇵🇹 e Espanha 🇪🇸. Mais que uma plataforma, somos um movimento.
         </motion.p>
         
         {/* CTA Button */}

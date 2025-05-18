@@ -1,0 +1,49 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="400"
+  height="300"
+  viewBox="0 0 400 300"
+>
+  <style>
+    @keyframes glitch {
+      0%, 100% { transform: translate(0); }
+      20% { transform: translate(-5px, -5px); }
+      40% { transform: translate(5px, 5px); }
+      60% { transform: translate(-5px, 5px); }
+      80% { transform: translate(5px, -5px); }
+    }
+    
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 5px currentColor); }
+      50% { filter: drop-shadow(0 0 15px currentColor); }
+    }
+    
+    .portugal {
+      animation: glitch 5s infinite, glow 3s infinite;
+      transform-origin: center;
+      transform-box: fill-box;
+    }
+    
+    .spain {
+      animation: glitch 6s infinite, glow 4s infinite;
+      transform-origin: center;
+      transform-box: fill-box;
+      animation-delay: 0.5s;
+    }
+  </style>
+  
+  <!-- Portugal Flag -->
+  <g class="portugal">
+    <rect x="10" y="50" width="180" height="120" fill="#006600" />
+    <rect x="60" y="50" width="130" height="120" fill="#FF0000" />
+    <circle cx="60" cy="110" r="40" fill="#FFCC00" />
+    <path d="M40,90 h40 v40 h-40 z" fill="#FF0000" />
+  </g>
+  
+  <!-- Spain Flag -->
+  <g class="spain">
+    <rect x="220" y="50" width="180" height="120" fill="#AA151B" />
+    <rect x="220" y="80" width="180" height="60" fill="#F1BF00" />
+    <path d="M240,110 l5,-10 h10 l5,10 l-5,10 h-10 z" fill="#AA151B" />
+  </g>
+</svg>

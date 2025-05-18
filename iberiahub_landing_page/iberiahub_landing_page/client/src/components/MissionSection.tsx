@@ -100,7 +100,7 @@ export default function MissionSection() {
                 className="text-lg mb-8 leading-relaxed"
                 variants={itemVariants}
               >
-                Começamos com CS2, mas o nosso palco está aberto para Valorant, LoL e mais modalidades. IberiaHub é mais do que uma plataforma, é a casa dos esports ibéricos, onde oportunidades e paixões se cruzam sem fronteiras.
+                Mais do que uma plataforma, o IberiaHub é um movimento para quebrar barreiras e mostrar que o esports une povos.
               </motion.p>
               
               <motion.div 
