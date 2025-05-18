@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import app from '../server/index';
+import app from '../server/production';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Forward the request to the Express app
