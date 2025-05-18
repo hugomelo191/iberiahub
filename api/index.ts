@@ -51,5 +51,18 @@ app.use((_req, res) => {
 });
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
-  app(req, res);
+  // Se for uma requisição OPTIONS, retornar 200
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  // Retornar informações da API
+  res.json({
+    name: 'Esports Ibéricos API',
+    version: '1.0.0',
+    status: 'online',
+    endpoints: {
+      health: '/api/health'
+    }
+  });
 } 
