@@ -1,5 +1,5 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import express from 'express';
+const { VercelRequest, VercelResponse } = require('@vercel/node');
+const express = require('express');
 
 const app = express();
 
@@ -50,7 +50,7 @@ app.use((_req, res) => {
   });
 });
 
-export default function handler(req: VercelRequest, res: VercelResponse) {
+module.exports = function handler(req, res) {
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
