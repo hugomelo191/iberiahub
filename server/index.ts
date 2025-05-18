@@ -81,26 +81,13 @@ app.get('/api/health', (_req, res) => {
   });
 });
 
-// Serve static files in production
-if (process.env.NODE_ENV === "production") {
-  const distPath = path.join(process.cwd(), "dist", "client");
-  app.use(express.static(distPath));
-}
-
-// Catch-all route para o frontend em produção
-if (process.env.NODE_ENV === "production") {
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(process.cwd(), "dist", "client", "index.html"));
+// Catch-all route para 404
+app.use((_req, res) => {
+  res.status(404).json({ 
+    status: 'error',
+    message: 'Rota não encontrada'
   });
-} else {
-  // Rota 404 para desenvolvimento
-  app.use((_req, res) => {
-    res.status(404).json({ 
-      status: 'error',
-      message: 'Rota não encontrada'
-    });
-  });
-}
+});
 
 // Start server if running locally
 if (process.env.NODE_ENV === "development") {
@@ -110,5 +97,5 @@ if (process.env.NODE_ENV === "development") {
   });
 }
 
-// Export for Vercel
+// Export para Vercel
 export default app;
